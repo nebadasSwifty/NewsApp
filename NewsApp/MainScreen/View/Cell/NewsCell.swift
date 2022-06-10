@@ -48,11 +48,11 @@ class NewsCell: UITableViewCell {
     }
     
     func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
-        guard let urlImage = URL(string: viewModel.articles[indexPath.row].urlToImage ?? "") else { return }
-        guard let date = viewModel.articles[indexPath.row].publishedAt else { return }
-        newsNameLabel.text = viewModel.articles[indexPath.row].title
-        descriptionLabel.text = viewModel.articles[indexPath.row].description
-        sourceLabel.text = viewModel.articles[indexPath.row].author
+        guard let urlImage = URL(string: viewModel.getArticle(for: indexPath).urlToImage ?? "") else { return }
+        guard let date = viewModel.getArticle(for: indexPath).publishedAt else { return }
+        newsNameLabel.text = viewModel.getArticle(for: indexPath).title
+        descriptionLabel.text = viewModel.getArticle(for: indexPath).description
+        sourceLabel.text = viewModel.getArticle(for: indexPath).author
         dateLabel.text = dateFormatter(date: date)
         newsImageView.kf.indicatorType = .activity
         newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4))])

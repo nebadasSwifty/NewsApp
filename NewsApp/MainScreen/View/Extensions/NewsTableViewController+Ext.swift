@@ -29,69 +29,41 @@ extension NewsTableViewController {
         }
     }
     var businessItem: UIAction {
-        let action = UIAction(title: "Business") { _ in
-            self.viewModel.selectedCategory = .business
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        return action
+        return createActionItem(title: "Business", category: .business)
     }
     
     var generalItem: UIAction {
-        let action = UIAction(title: "General") { _ in
-            self.viewModel.selectedCategory = .general
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        return action
+        return createActionItem(title: "General", category: .general)
     }
     
     var technologyItem: UIAction {
-        let action = UIAction(title: "Technology") { _ in
-            self.viewModel.selectedCategory = .technology
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        return action
+        return createActionItem(title: "Technology", category: .technology)
     }
     
     var entertainmentItem: UIAction {
-        let action = UIAction(title: "Entertainment") { _ in
-            self.viewModel.selectedCategory = .entertainment
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        return action
+        return createActionItem(title: "Entertainment", category: .entertainment)
     }
     
     var healthItem: UIAction {
-        let action = UIAction(title: "Health") { _ in
-            self.viewModel.selectedCategory = .health
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
-        return action
+        return createActionItem(title: "Health", category: .health)
     }
     var sportsItem: UIAction {
-        let action = UIAction(title: "Sports") { _ in
-            self.viewModel.selectedCategory = .sports
-            self.viewModel.fetchingData(page: 1) {
+        return createActionItem(title: "Sports", category: .sports)
+    }
+    
+    var scienceItem: UIAction {
+        return createActionItem(title: "Science", category: .science)
+    }
+    
+    func createActionItem(title: String, category: Category) -> UIAction {
+        let action = UIAction(title: title) { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.selectedCategory = category
+            self.viewModel.fetchingData(page: 1, query: self.viewModel.query) {
                 DispatchQueue.main.async {
+                    if self.viewModel.numberRows() == 0 {
+                        self.emptyNewsLabel.isHidden = false
+                    }
                     self.tableView.reloadData()
                 }
             }
@@ -99,16 +71,30 @@ extension NewsTableViewController {
         return action
     }
     
-    var scienceItem: UIAction {
-        let action = UIAction(title: "Science") { _ in
-            self.viewModel.selectedCategory = .science
-            self.viewModel.fetchingData(page: 1) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
+    var settingsItem: UIAction {
+        let action = UIAction(title: "Settings", image: UIImage(systemName: "gearshape")) { _ in
+            self.coordinator.showSettings()
         }
         return action
+    }
+    func createCategoryButton() -> UIBarButtonItem {
+        let button = UIBarButtonItem(image: UIImage(systemName: "newspaper"), menu: menuCatergories)
+        return button
+    }
+    
+    func createMenuCategory() -> UIMenu {
+        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem, settingsItem])
+        return menu
+    }
+    
+    func createEmptyNewsLabel() -> UILabel {
+        let label = UILabel()
+        label.frame = view.bounds
+        label.font = UIFont.systemFont(ofSize: 25)
+        label.text = "No news found for keywords."
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        return label
     }
     
     

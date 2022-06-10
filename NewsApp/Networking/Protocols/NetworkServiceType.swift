@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkServiceType {
-    func fetch(from category: Category, page: Int, completion: @escaping ([Article]) -> Void)
+    func fetch(from category: Category, page: Int, query: String, completion: @escaping ([Article]) -> Void)
 }

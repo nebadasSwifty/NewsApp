@@ -8,9 +8,9 @@
 import Foundation
 
 protocol NewsViewModelType {
-    var articles: [Article] { get set }
     func numberRows() -> Int
+    func getArticle(for indexPath: IndexPath) -> Article
     var selectedCategory: Category { get set }
-    func fetchingData(page: Int, completion: @escaping () -> Void)
-    var categoriesArray: [String] { get }
+    func fetchingData(page: Int, query: String, completion: @escaping () -> Void)
+    var query: String { get set }
 }

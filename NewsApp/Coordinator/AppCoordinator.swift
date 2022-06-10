@@ -21,13 +21,20 @@ class AppCoordinator: AppCoordinatorType {
         newsVC.networkService = networkSevice
         newsVC.viewModel = viewModel
         newsVC.coordinator = self
-        viewModel.fetchingData(page: 1) {
+        viewModel.fetchingData(page: 1, query: viewModel.query ) {
             DispatchQueue.main.async {
                 newsVC.tableView.reloadData()
             }
         }
         navigationContoller.navigationBar.prefersLargeTitles = true
         navigationContoller.pushViewController(newsVC, animated: true)
+    }
+    
+    func showSettings() {
+        let settingsVC = SettingsViewController()
+        let viewModel = SettingsViewModel()
+        settingsVC.viewModel = viewModel
+        navigationContoller.pushViewController(settingsVC, animated: true)
     }
     
 }

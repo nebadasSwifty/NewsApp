@@ -12,16 +12,9 @@ import SafariServices
 class NewsTableViewController: UIViewController {
     // MARK: - Outlets
     lazy var tableView: UITableView = createTableView()
-    
-    lazy var menuCatergories: UIMenu = {
-        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem])
-        return menu
-    }()
-    
-    lazy var barButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "newspaper"), menu: menuCatergories)
-        return button
-    }()
+    lazy var menuCatergories: UIMenu = createMenuCategory()
+    lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
+    lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()
     
     //MARK: - Variables
     var coordinator: AppCoordinatorType!
@@ -31,15 +24,25 @@ class NewsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "News"
+        configureEmptyNewsLabel()
         setupTableViewConstraints()
-        navigationItem.rightBarButtonItem = barButton
+        navigationItem.rightBarButtonItem = categoryBarButton
+    }
+    
+    
+    private func configureEmptyNewsLabel() {
+        tableView.addSubview(emptyNewsLabel)
+        if viewModel.numberRows() == 0 {
+            emptyNewsLabel.isHidden = false
+        }
+        emptyNewsLabel.center = tableView.center
     }
 }
 
 //MARK: - Table view delegate
 extension NewsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let urlString = viewModel.articles[indexPath.row].url else { return }
+        guard let urlString = viewModel.getArticle(for: indexPath).url else { return }
         if let url = URL(string: urlString) {
             let vc = SFSafariViewController(url: url)
             vc.delegate = self
@@ -61,7 +64,10 @@ extension NewsTableViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NewsCell else { return UITableViewCell() }
-        cell.setupCell(with: viewModel, for: indexPath)
+        if viewModel.numberRows() != 0 {
+            cell.setupCell(with: viewModel, for: indexPath)
+            emptyNewsLabel.isHidden = true
+        }
         return cell
     }
 }

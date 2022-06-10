@@ -12,15 +12,17 @@ final class NetworkService: NetworkServiceType {
     private let apiKey = "acc6674fc31b4761ab96d2b7be96a93d"
     private let session = URLSession.shared
     
-    func fetch(from category: Category, page: Int, completion: @escaping ([Article]) -> Void) {
-        let urlString = generateNewsURL(from: category) + "&page=\(page)"
+    func fetch(from category: Category, page: Int, query: String, completion: @escaping ([Article]) -> Void) {
+        let urlString = generateNewsURL(from: category) + "&page=\(page)" + "&pageSize=100" + "&q=\(query)"
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
         session.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
             do {
                 let dataResponse = try JSONDecoder().decode(NewsApiResonse.self, from: data)
-                completion(dataResponse.articles)
+                DispatchQueue.global().async {
+                    completion(dataResponse.articles)
+                }
             } catch {
                 print(String(describing: error))
             }
