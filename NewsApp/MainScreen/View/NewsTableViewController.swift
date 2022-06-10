@@ -29,6 +29,15 @@ class NewsTableViewController: UIViewController {
         navigationItem.rightBarButtonItem = categoryBarButton
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel = nil
+        viewModel = NewsViewModel(networkService: networkService)
+        viewModel.fetchingData(page: 1, query: viewModel.query) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     private func configureEmptyNewsLabel() {
         tableView.addSubview(emptyNewsLabel)
