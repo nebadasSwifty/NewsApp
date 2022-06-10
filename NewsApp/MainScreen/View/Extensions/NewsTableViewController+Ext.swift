@@ -10,6 +10,7 @@ import UIKit
 import SafariServices
 
 extension NewsTableViewController {
+    //MARK: - Table view configure
     func createTableView() -> UITableView {
         let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.register(NewsCell.self, forCellReuseIdentifier: "Cell")
@@ -28,6 +29,7 @@ extension NewsTableViewController {
             make.right.equalToSuperview()
         }
     }
+    //MARK: - Configure categories menu
     var businessItem: UIAction {
         return createActionItem(title: "Business", category: .business)
     }
@@ -71,22 +73,16 @@ extension NewsTableViewController {
         return action
     }
     
-    var settingsItem: UIAction {
-        let action = UIAction(title: "Settings", image: UIImage(systemName: "gearshape")) { _ in
-            self.coordinator.showSettings()
-        }
-        return action
-    }
     func createCategoryButton() -> UIBarButtonItem {
         let button = UIBarButtonItem(image: UIImage(systemName: "newspaper"), menu: menuCatergories)
         return button
     }
     
     func createMenuCategory() -> UIMenu {
-        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem, settingsItem])
+        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem])
         return menu
     }
-    
+    //MARK: - Empty news label
     func createEmptyNewsLabel() -> UILabel {
         let label = UILabel()
         label.frame = view.bounds
@@ -97,7 +93,22 @@ extension NewsTableViewController {
         return label
     }
     
+    func configureConstraintsEmptyNewsLabel() {
+        tableView.addSubview(emptyNewsLabel)
+        emptyNewsLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+    }
+    //MARK: - Configure settings bar button
+    func createSettingsBarButton() -> UIBarButtonItem {
+        let button = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingsBarButtonPressed))
+        return button
+    }
     
+    @objc func settingsBarButtonPressed() {
+        coordinator.showSettings()
+    }
 }
 
 extension NewsTableViewController: SFSafariViewControllerDelegate {}

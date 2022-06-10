@@ -29,6 +29,7 @@
 		EDE8312F28532A420057DCD9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8312D28532A420057DCD9 /* SettingsViewController.swift */; };
 		EDE8313528535F900057DCD9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313428535F900057DCD9 /* SettingsViewModel.swift */; };
 		EDE8313728535FB10057DCD9 /* SettingsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313628535FB10057DCD9 /* SettingsViewModelType.swift */; };
+		EDE8313A28539CCC0057DCD9 /* SettingsViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313928539CCC0057DCD9 /* SettingsViewController+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		EDE8312D28532A420057DCD9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EDE8313428535F900057DCD9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		EDE8313628535FB10057DCD9 /* SettingsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelType.swift; sourceTree = "<group>"; };
+		EDE8313928539CCC0057DCD9 /* SettingsViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsViewController+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 		EDE8312C285328560057DCD9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EDE8313828539CA30057DCD9 /* Extension */,
 				EDE8312D28532A420057DCD9 /* SettingsViewController.swift */,
 			);
 			path = View;
@@ -270,6 +273,14 @@
 				EDE8313628535FB10057DCD9 /* SettingsViewModelType.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		EDE8313828539CA30057DCD9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EDE8313928539CCC0057DCD9 /* SettingsViewController+Ext.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,6 +411,7 @@
 				EDD856D22851C6D600D7A71D /* NewsViewModelType.swift in Sources */,
 				EDD856D82851C78900D7A71D /* NewsViewModel.swift in Sources */,
 				EDD856B02851C2C900D7A71D /* SceneDelegate.swift in Sources */,
+				EDE8313A28539CCC0057DCD9 /* SettingsViewController+Ext.swift in Sources */,
 				EDC1CC29285201A700E6957E /* Category.swift in Sources */,
 				EDD856D02851C4DF00D7A71D /* NetworkService.swift in Sources */,
 				EDD856DC2851C87500D7A71D /* NewsCell.swift in Sources */,

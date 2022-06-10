@@ -13,6 +13,7 @@ class NewsTableViewController: UIViewController {
     // MARK: - Outlets
     lazy var tableView: UITableView = createTableView()
     lazy var menuCatergories: UIMenu = createMenuCategory()
+    lazy var settingsBarButton: UIBarButtonItem = createSettingsBarButton()
     lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
     lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()
     
@@ -20,31 +21,31 @@ class NewsTableViewController: UIViewController {
     var coordinator: AppCoordinatorType!
     var viewModel: NewsViewModelType!
     var networkService: NetworkServiceType!
-    
+    //MARK: - View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "News"
         configureEmptyNewsLabel()
         setupTableViewConstraints()
-        navigationItem.rightBarButtonItem = categoryBarButton
+        navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
+        configureConstraintsEmptyNewsLabel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel = nil
         viewModel = NewsViewModel(networkService: networkService)
+        configureEmptyNewsLabel()
         viewModel.fetchingData(page: 1, query: viewModel.query) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
-    
+    // MARK: - Private methods
     private func configureEmptyNewsLabel() {
-        tableView.addSubview(emptyNewsLabel)
         if viewModel.numberRows() == 0 {
             emptyNewsLabel.isHidden = false
         }
-        emptyNewsLabel.center = tableView.center
     }
 }
 

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension NewsCell {
+    //MARK: - Creating views for cell
     func createImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
@@ -49,7 +50,7 @@ extension NewsCell {
         label.textColor = .systemBlue
         return label
     }
-    
+    //MARK: - Cell information container
     func createNewsStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -62,14 +63,14 @@ extension NewsCell {
          self.dateLabel].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }
-    
+    //MARK: - Date formatter
     func dateFormatter(date: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d, yyyy"
         let dateFormat = formatter.date(from: date)
         return formatter.string(from: dateFormat ?? Date())
     }
-    
+    //MARK: - Creating Stack with all elements cell
     func createStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal

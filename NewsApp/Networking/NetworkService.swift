@@ -13,8 +13,7 @@ final class NetworkService: NetworkServiceType {
     private let session = URLSession.shared
     
     func fetch(from category: Category, page: Int, query: String, completion: @escaping ([Article]) -> Void) {
-        let urlString = generateNewsURL(from: category) + "&page=\(page)" + "&pageSize=100" + "&q=\(query)"
-        guard let url = URL(string: urlString) else { return }
+        guard let url = generateNewsURL(from: category, query: query, page: page) else { return }
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
         session.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
@@ -29,12 +28,15 @@ final class NetworkService: NetworkServiceType {
         }.resume()
     }
     
-    private func generateNewsURL(from category: Category) -> String {
+    private func generateNewsURL(from category: Category, query: String, page: Int) -> URL? {
         var url = baseUrlString
         url += "apiKey=\(apiKey)"
         url += "&language=en"
         url += "&category=\(category.rawValue)"
-        return url
+        url += "&q=\(query)"
+        url += "&pageSize=100"
+        url += "&page=\(page)"
+        return URL(string: url)
     }
     
     

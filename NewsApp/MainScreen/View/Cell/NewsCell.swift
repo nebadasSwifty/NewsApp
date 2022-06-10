@@ -18,6 +18,7 @@ class NewsCell: UITableViewCell {
     lazy var newsStackView: UIStackView = createNewsStackView()
     lazy var elementsStackView: UIStackView = createStackView()
     
+    //MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureViewCell()
@@ -26,7 +27,7 @@ class NewsCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+    //MARK: - Private methods
     private func configureViewCell() {
         addSubview(elementsStackView)
         elementsStackView.snp.makeConstraints { make in
@@ -46,7 +47,7 @@ class NewsCell: UITableViewCell {
             make.left.equalToSuperview().inset(10)
         }
     }
-    
+    //MARK: - Methods configure cell
     func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
         guard let urlImage = URL(string: viewModel.getArticle(for: indexPath).urlToImage ?? "") else { return }
         guard let date = viewModel.getArticle(for: indexPath).publishedAt else { return }
