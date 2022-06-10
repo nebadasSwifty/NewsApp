@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-%23373737)
 # NewsApp 
 <p align="center">
-<img src= "https://media.giphy.com/media/01qqBk4CEwHeHQpwxv/giphy.gif" width="200" >
+<img src= "https://media.giphy.com/media/XsBqsQyqZrCY9EOtaj/giphy.gif" width="200" >
 </p>
 <p align="center">
     News application with adding keywords for search and selection categories
