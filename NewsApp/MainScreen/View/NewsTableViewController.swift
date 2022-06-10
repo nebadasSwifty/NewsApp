@@ -13,15 +13,26 @@ class NewsTableViewController: UIViewController {
     // MARK: - Outlets
     lazy var tableView: UITableView = createTableView()
     
+    lazy var menuCatergories: UIMenu = {
+        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem])
+        return menu
+    }()
+    
+    lazy var barButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "newspaper"), menu: menuCatergories)
+        return button
+    }()
+    
     //MARK: - Variables
     var coordinator: AppCoordinatorType!
     var viewModel: NewsViewModelType!
-    let networkService = NetworkService()
+    var networkService: NetworkServiceType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "News"
         setupTableViewConstraints()
+        navigationItem.rightBarButtonItem = barButton
     }
 }
 
@@ -38,17 +49,6 @@ extension NewsTableViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 165
-    }
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        var page = 1
-        if indexPath.row == viewModel.numberRows() - 1 && viewModel.numberRows() != 100 { // ограничение 100 из-за
-            page += 1                                                                     // бесплатного аккаунта
-            viewModel.fetchingData(page: page) {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
-        }
     }
 }
 
