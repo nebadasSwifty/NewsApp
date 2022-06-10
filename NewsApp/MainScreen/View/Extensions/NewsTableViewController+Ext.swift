@@ -60,6 +60,7 @@ extension NewsTableViewController {
     func createActionItem(title: String, category: Category) -> UIAction {
         let action = UIAction(title: title) { [weak self] _ in
             guard let self = self else { return }
+            UserDefaults.standard.set(category.rawValue, forKey: "category")
             self.viewModel.selectedCategory = category
             self.viewModel.fetchingData(page: 1, query: self.viewModel.query) {
                 DispatchQueue.main.async {

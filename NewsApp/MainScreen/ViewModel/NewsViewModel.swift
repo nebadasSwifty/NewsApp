@@ -9,7 +9,11 @@ import Foundation
 
 final class NewsViewModel: NewsViewModelType {
     private var articles: [Article] = []
-    var selectedCategory: Category
+    var selectedCategory: Category = {
+        let category = UserDefaults.standard.object(forKey: "category") as? String ?? ""
+        let selectedCategory = Category(rawValue: category)
+        return selectedCategory ?? .general
+    }()
     var query: String = {
         let query = UserDefaults.standard.object(forKey: "query") as? [String] ?? [String]()
         var result = ""
@@ -20,9 +24,8 @@ final class NewsViewModel: NewsViewModelType {
     let networkService: NetworkServiceType
     
     
-    init(networkService: NetworkServiceType, selectedCategory: Category = .general) {
+    init(networkService: NetworkServiceType) {
         self.networkService = networkService
-        self.selectedCategory = selectedCategory
     }
 }
 
