@@ -110,6 +110,15 @@ extension NewsTableViewController {
     @objc func settingsBarButtonPressed() {
         coordinator.showSettings()
     }
+    
+    @objc func refreshNews() {
+        viewModel.fetchingData(page: 1, query: viewModel.query) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        refreshControl.endRefreshing()
+    }
 }
 
 extension NewsTableViewController: SFSafariViewControllerDelegate {}

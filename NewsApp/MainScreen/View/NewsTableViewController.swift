@@ -16,6 +16,12 @@ class NewsTableViewController: UIViewController {
     lazy var settingsBarButton: UIBarButtonItem = createSettingsBarButton()
     lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
     lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()
+    lazy var refreshControl: UIRefreshControl = {
+       let refresh = UIRefreshControl()
+        refresh.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresh.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
+        return refresh
+    }()
     
     //MARK: - Variables
     var coordinator: AppCoordinatorType!
@@ -27,8 +33,8 @@ class NewsTableViewController: UIViewController {
         title = "News"
         configureEmptyNewsLabel()
         setupTableViewConstraints()
+        tableView.addSubview(refreshControl)
         navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
-        configureConstraintsEmptyNewsLabel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +46,7 @@ class NewsTableViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
+        configureConstraintsEmptyNewsLabel()
     }
     // MARK: - Private methods
     private func configureEmptyNewsLabel() {
