@@ -63,13 +63,6 @@ extension NewsCell {
          self.dateLabel].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }
-    //MARK: - Date formatter
-    func dateFormatter(date: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d, yyyy"
-        let dateFormat = formatter.date(from: date)
-        return formatter.string(from: dateFormat ?? Date())
-    }
     //MARK: - Creating Stack with all elements cell
     func createStackView() -> UIStackView {
         let stackView = UIStackView()
@@ -79,5 +72,4 @@ extension NewsCell {
         [self.newsImageView, newsStackView].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }
-    
 }

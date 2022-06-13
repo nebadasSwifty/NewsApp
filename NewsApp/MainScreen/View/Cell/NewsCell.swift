@@ -54,11 +54,10 @@ class NewsCell: UITableViewCell {
         newsNameLabel.text = viewModel.getArticle(for: indexPath).title
         descriptionLabel.text = viewModel.getArticle(for: indexPath).description
         sourceLabel.text = viewModel.getArticle(for: indexPath).author
-        dateLabel.text = dateFormatter(date: date)
+        dateLabel.text = Date().dateFormatter(date: date)
         newsImageView.kf.indicatorType = .activity
         newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4)),
                                                             .processor(DownsamplingImageProcessor(size: newsImageView.frame.size)),
                                                             .cacheOriginalImage])
     }
-    
 }

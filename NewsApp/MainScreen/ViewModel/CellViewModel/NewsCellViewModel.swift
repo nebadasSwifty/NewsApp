@@ -21,5 +21,4 @@ class NewsCellViewModel: NewsCellViewModelType {
         self.datePublished = datePublished
         self.newsImage = newsImage
     }
-    
 }

@@ -30,6 +30,7 @@
 		EDE8313528535F900057DCD9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313428535F900057DCD9 /* SettingsViewModel.swift */; };
 		EDE8313728535FB10057DCD9 /* SettingsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313628535FB10057DCD9 /* SettingsViewModelType.swift */; };
 		EDE8313A28539CCC0057DCD9 /* SettingsViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE8313928539CCC0057DCD9 /* SettingsViewController+Ext.swift */; };
+		EDF755012857466E00D9D29E /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF755002857466E00D9D29E /* Date+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		EDE8313428535F900057DCD9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		EDE8313628535FB10057DCD9 /* SettingsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelType.swift; sourceTree = "<group>"; };
 		EDE8313928539CCC0057DCD9 /* SettingsViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsViewController+Ext.swift"; sourceTree = "<group>"; };
+		EDF755002857466E00D9D29E /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		EDD856AC2851C2C900D7A71D /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
+				EDF754FF2857465200D9D29E /* Extensions */,
 				EDE8312B2853283B0057DCD9 /* SettingsScreen */,
 				EDD856C92851C3B400D7A71D /* Networking */,
 				EDD856C62851C34100D7A71D /* MainScreen */,
@@ -283,6 +286,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		EDF754FF2857465200D9D29E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				EDF755002857466E00D9D29E /* Date+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -409,6 +420,7 @@
 				EDD856CE2851C4D000D7A71D /* AppCoordinatorType.swift in Sources */,
 				EDE8313728535FB10057DCD9 /* SettingsViewModelType.swift in Sources */,
 				EDD856D22851C6D600D7A71D /* NewsViewModelType.swift in Sources */,
+				EDF755012857466E00D9D29E /* Date+Ext.swift in Sources */,
 				EDD856D82851C78900D7A71D /* NewsViewModel.swift in Sources */,
 				EDD856B02851C2C900D7A71D /* SceneDelegate.swift in Sources */,
 				EDE8313A28539CCC0057DCD9 /* SettingsViewController+Ext.swift in Sources */,

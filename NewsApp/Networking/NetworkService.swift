@@ -14,7 +14,7 @@ final class NetworkService: NetworkServiceType {
     
     func fetch(from category: Category, page: Int, query: String, completion: @escaping ([Article]) -> Void) {
         guard let url = generateNewsURL(from: category, query: query, page: page) else { return }
-        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+        let request = URLRequest(url: url)
         session.dataTask(with: request) { data, response, error in
             guard let data = data else { return }
             do {
