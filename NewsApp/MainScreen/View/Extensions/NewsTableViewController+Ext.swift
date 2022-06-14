@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SafariServices
+import Popovers
 
 extension NewsTableViewController {
     //MARK: - Table view configure
@@ -30,35 +31,52 @@ extension NewsTableViewController {
         }
     }
     //MARK: - Configure categories menu
-    var businessItem: UIAction {
+    var businessItem: Templates.MenuButton {
         return createActionItem(title: "Business", category: .business)
     }
     
-    var generalItem: UIAction {
+    var generalItem: Templates.MenuButton {
         return createActionItem(title: "General", category: .general)
     }
     
-    var technologyItem: UIAction {
+    var technologyItem: Templates.MenuButton {
         return createActionItem(title: "Technology", category: .technology)
     }
     
-    var entertainmentItem: UIAction {
+    var entertainmentItem: Templates.MenuButton {
         return createActionItem(title: "Entertainment", category: .entertainment)
     }
     
-    var healthItem: UIAction {
+    var healthItem: Templates.MenuButton {
         return createActionItem(title: "Health", category: .health)
     }
-    var sportsItem: UIAction {
+    var sportsItem: Templates.MenuButton {
         return createActionItem(title: "Sports", category: .sports)
     }
     
-    var scienceItem: UIAction {
+    var scienceItem: Templates.MenuButton {
         return createActionItem(title: "Science", category: .science)
     }
     
-    func createActionItem(title: String, category: Category) -> UIAction {
-        let action = UIAction(title: title) { [weak self] _ in
+//    func createActionItem(title: String, category: Category) -> UIAction {
+//        let action = UIAction(title: title) { [weak self] _ in
+//            guard let self = self else { return }
+//            UserDefaults.standard.set(category.rawValue, forKey: "category")
+//            self.viewModel.selectedCategory = category
+//            self.viewModel.fetchingData(page: 1, query: self.viewModel.query) {
+//                DispatchQueue.main.async {
+//                    if self.viewModel.numberRows() == 0 {
+//                        self.emptyNewsLabel.isHidden = false
+//                    }
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        }
+//        return action
+//    }
+    
+    func createActionItem(title: String, category: Category) -> Templates.MenuButton {
+        let button = Templates.MenuButton(title: title) { [weak self] in
             guard let self = self else { return }
             UserDefaults.standard.set(category.rawValue, forKey: "category")
             self.viewModel.selectedCategory = category
@@ -71,16 +89,28 @@ extension NewsTableViewController {
                 }
             }
         }
-        return action
-    }
-    
-    func createCategoryButton() -> UIBarButtonItem {
-        let button = UIBarButtonItem(image: UIImage(systemName: "newspaper"), menu: menuCatergories)
         return button
     }
     
-    func createMenuCategory() -> UIMenu {
-        let menu = UIMenu(title: "Category", children: [generalItem, businessItem, technologyItem, entertainmentItem, healthItem, sportsItem, scienceItem])
+    
+    
+    func createCategoryButton() -> UIBarButtonItem {
+        let button = UIBarButtonItem(customView: categoryButton)
+        categoryButton.setImage(UIImage(systemName: "newspaper"), for: .normal)
+        categoryButton.addTarget(self, action: #selector(presentationMenu), for: .touchUpInside)
+        return button
+    }
+    
+    func createMenuCategory() -> Templates.UIKitMenu {
+        let menu = Templates.UIKitMenu(sourceView: categoryButton) { [unowned self] in
+            self.sportsItem
+            self.scienceItem
+            self.businessItem
+            self.generalItem
+            self.entertainmentItem
+            self.healthItem
+            self.technologyItem
+        }
         return menu
     }
     //MARK: - Empty news label
@@ -119,6 +149,15 @@ extension NewsTableViewController {
         }
         refreshControl.endRefreshing()
     }
+    
+    @objc func presentationMenu() {
+        if menuCatergories.isPresented {
+            menuCatergories.dismiss()
+        } else {
+            menuCatergories.present()
+        }
+    }
 }
+
 
 extension NewsTableViewController: SFSafariViewControllerDelegate {}

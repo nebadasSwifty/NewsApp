@@ -11,8 +11,9 @@ import SafariServices
 
 class NewsTableViewController: UIViewController {
     // MARK: - Outlets
+    lazy var categoryButton = UIButton()
     lazy var tableView: UITableView = createTableView()
-    lazy var menuCatergories: UIMenu = createMenuCategory()
+    lazy var menuCatergories = createMenuCategory()
     lazy var settingsBarButton: UIBarButtonItem = createSettingsBarButton()
     lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
     lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()

@@ -13,6 +13,6 @@ extension Date {
         let formattedDate = dateFormatter.date(from: date)
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .full
-        return formatter.localizedString(for: formattedDate!, relativeTo: Date.now)
+        return formatter.localizedString(for: formattedDate!, relativeTo: Date())
     }
 }
