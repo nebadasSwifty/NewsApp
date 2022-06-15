@@ -13,7 +13,7 @@ class NewsTableViewController: UIViewController {
     // MARK: - Outlets
     lazy var categoryButton = UIButton()
     lazy var tableView: UITableView = createTableView()
-    lazy var menuCatergories = createMenuCategory()
+    lazy var menuCatergories = createSheet()
     lazy var settingsBarButton: UIBarButtonItem = createSettingsBarButton()
     lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
     lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()
@@ -32,19 +32,19 @@ class NewsTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "News"
-        configureEmptyNewsLabel()
-        setupTableViewConstraints()
         tableView.addSubview(refreshControl)
         navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
+        setupTableViewConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel = nil
         viewModel = NewsViewModel(networkService: networkService)
-        configureEmptyNewsLabel()
-        viewModel.fetchingData(page: 1, query: viewModel.query) {
+        viewModel.getData {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.configureEmptyNewsLabel()
             }
         }
         configureConstraintsEmptyNewsLabel()

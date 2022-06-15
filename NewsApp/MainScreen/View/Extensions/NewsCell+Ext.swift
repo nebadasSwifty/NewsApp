@@ -22,6 +22,7 @@ extension NewsCell {
     
     func createNameLabel() -> UILabel {
         let label = UILabel()
+        label.text = ""
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label

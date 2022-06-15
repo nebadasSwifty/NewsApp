@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import Unrealm
+import RealmSwift
+import Realm
 
 // MARK: - News
 struct NewsApiResonse: Codable {
     let status: String
-    let totalResults: Int
     let articles: [Article]
 }
 

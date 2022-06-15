@@ -11,6 +11,6 @@ protocol NewsViewModelType {
     func numberRows() -> Int
     func getArticle(for indexPath: IndexPath) -> Article
     var selectedCategory: Category { get set }
-    func fetchingData(page: Int, query: String, completion: @escaping () -> Void)
+    func getData(completion: @escaping () -> Void)
     var query: String { get set }
 }

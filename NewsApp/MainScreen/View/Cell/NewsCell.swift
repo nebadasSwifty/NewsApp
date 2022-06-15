@@ -27,6 +27,7 @@ class NewsCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
     //MARK: - Private methods
     private func configureViewCell() {
         addSubview(elementsStackView)
