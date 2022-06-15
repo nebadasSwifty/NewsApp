@@ -10,7 +10,7 @@ import Foundation
 
 final class NewsViewModel: NewsViewModelType {
     private var articles: [Article] = []
-    var selectedCategory: Category = {
+    lazy var selectedCategory: Category = {
         guard let savedCategory = UserDefaults.standard.string(forKey: "categories") else { return Category.general }
         let selectCategory = Category(rawValue: savedCategory)
         return selectCategory ?? .general
@@ -29,6 +29,7 @@ extension NewsViewModel {
     }
     private func fetchingData(completion: @escaping ([Article]) -> Void) {
         query = getQuery()
+        selectedCategory = getCategory()
         networkService.fetch(from: selectedCategory, page: 1, query: query)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             guard let data = UserDefaults.standard.data(forKey: "articles") else { return }
@@ -54,6 +55,13 @@ extension NewsViewModel {
         var result = ""
         queryFetch.forEach { result += "+\($0)" }
         return result
+    }
+    private func getCategory() -> Category {
+        guard let savedCategory = UserDefaults.standard.string(forKey: "categories") else { return Category.general }
+        if let selectCategory = Category(rawValue: savedCategory) {
+            return selectCategory
+        }
+        return .general
     }
 }
 

@@ -21,6 +21,9 @@ class AppCoordinator: AppCoordinatorType {
         newsVC.networkService = networkSevice
         newsVC.viewModel = viewModel
         newsVC.coordinator = self
+        viewModel.getData {
+            newsVC.tableView.reloadData()
+        }
         navigationContoller.navigationBar.prefersLargeTitles = true
         navigationContoller.pushViewController(newsVC, animated: true)
     }
