@@ -29,9 +29,8 @@ extension NewsViewModel {
     }
     private func fetchingData(completion: @escaping ([Article]) -> Void) {
         query = getQuery()
-        selectedCategory = getCategory()
         networkService.fetch(from: selectedCategory, page: 1, query: query)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             guard let data = UserDefaults.standard.data(forKey: "articles") else { return }
             if let decodedData = try? JSONDecoder().decode(NewsApiResonse.self, from: data) {
                 completion(decodedData.articles)
@@ -56,12 +55,6 @@ extension NewsViewModel {
         queryFetch.forEach { result += "+\($0)" }
         return result
     }
-    private func getCategory() -> Category {
-        guard let savedCategory = UserDefaults.standard.string(forKey: "categories") else { return Category.general }
-        if let selectCategory = Category(rawValue: savedCategory) {
-            return selectCategory
-        }
-        return .general
-    }
+    
 }
 
