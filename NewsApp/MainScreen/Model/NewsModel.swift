@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import Unrealm
-import RealmSwift
-import Realm
+
 
 // MARK: - News
 struct NewsApiResonse: Codable {

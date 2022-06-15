@@ -50,15 +50,21 @@ class NewsCell: UITableViewCell {
     }
     //MARK: - Methods configure cell
     func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
-        guard let urlImage = URL(string: viewModel.getArticle(for: indexPath).urlToImage ?? "") else { return }
-        guard let date = viewModel.getArticle(for: indexPath).publishedAt else { return }
-        newsNameLabel.text = viewModel.getArticle(for: indexPath).title
-        descriptionLabel.text = viewModel.getArticle(for: indexPath).description
-        sourceLabel.text = viewModel.getArticle(for: indexPath).author
+        let getViewModel = viewModel.getArticle(for: indexPath)
+        guard let date = getViewModel.publishedAt else { return }
+        newsNameLabel.text = getViewModel.title
+        descriptionLabel.text = getViewModel.description
+        sourceLabel.text = getViewModel.author
         dateLabel.text = Date().dateFormatter(date: date)
-        newsImageView.kf.indicatorType = .activity
-        newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4)),
-                                                            .processor(DownsamplingImageProcessor(size: newsImageView.frame.size)),
-                                                            .cacheOriginalImage])
+        if let urlImage = URL(string: getViewModel.urlToImage ?? "") {
+            newsImageView.kf.indicatorType = .activity
+            newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4)),
+                                                                .processor(DownsamplingImageProcessor(size: newsImageView.frame.size)),
+                                                                .cacheOriginalImage])
+        }
+    }
+    
+    override func prepareForReuse() {
+        newsImageView.image = nil
     }
 }

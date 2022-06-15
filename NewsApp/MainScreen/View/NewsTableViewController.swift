@@ -39,13 +39,9 @@ class NewsTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel = nil
-        viewModel = NewsViewModel(networkService: networkService)
         viewModel.getData {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.configureEmptyNewsLabel()
-            }
+            self.tableView.reloadData()
+            self.configureEmptyNewsLabel()
         }
         configureConstraintsEmptyNewsLabel()
     }
@@ -83,8 +79,8 @@ extension NewsTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NewsCell else { return UITableViewCell() }
         if viewModel.numberRows() != 0 {
-            cell.setupCell(with: viewModel, for: indexPath)
-            emptyNewsLabel.isHidden = true
+                cell.setupCell(with: viewModel, for: indexPath)
+                emptyNewsLabel.isHidden = true
         }
         return cell
     }

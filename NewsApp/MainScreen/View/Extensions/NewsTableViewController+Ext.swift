@@ -64,12 +64,10 @@ extension NewsTableViewController {
             UserDefaults.standard.set(category.rawValue, forKey: "categories")
             self.networkService.fetch(from: self.viewModel.selectedCategory, page: 1, query: self.viewModel.query)
             self.viewModel.getData {
-                DispatchQueue.main.async {
-                    if self.viewModel.numberRows() == 0 {
-                        self.emptyNewsLabel.isHidden = false
-                    }
-                    self.tableView.reloadData()
+                if self.viewModel.numberRows() == 0 {
+                    self.emptyNewsLabel.isHidden = false
                 }
+                self.tableView.reloadData()
             }
         }
         return action
@@ -99,7 +97,7 @@ extension NewsTableViewController {
     func createEmptyNewsLabel() -> UILabel {
         let label = UILabel()
         label.frame = view.bounds
-        label.font = UIFont.systemFont(ofSize: 25)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.text = "No news found for keywords."
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center

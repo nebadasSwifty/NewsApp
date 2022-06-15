@@ -15,15 +15,8 @@ final class NewsViewModel: NewsViewModelType {
         let selectCategory = Category(rawValue: savedCategory)
         return selectCategory ?? .general
     }()
-    var query: String = {
-        let query = UserDefaults.standard.object(forKey: "query") as? [String] ?? [String]()
-        var result = ""
-        query.forEach { result += "+\($0)" }
-        return result
-    }()
-    
+    lazy var query: String = getQuery()
     let networkService: NetworkServiceType
-    
     
     init(networkService: NetworkServiceType) {
         self.networkService = networkService
@@ -34,9 +27,10 @@ extension NewsViewModel {
     func numberRows() -> Int {
         return articles.count
     }
-    func fetchingData(completion: @escaping ([Article]) -> Void) {
+    private func fetchingData(completion: @escaping ([Article]) -> Void) {
+        query = getQuery()
         networkService.fetch(from: selectedCategory, page: 1, query: query)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             guard let data = UserDefaults.standard.data(forKey: "articles") else { return }
             if let decodedData = try? JSONDecoder().decode(NewsApiResonse.self, from: data) {
                 completion(decodedData.articles)
@@ -47,14 +41,19 @@ extension NewsViewModel {
     func getData(completion: @escaping () -> Void) {
         self.fetchingData { article in
             self.articles = article
-            DispatchQueue.main.async {
-                completion()
-            }
+            completion()
         }
     }
     
     func getArticle(for indexPath: IndexPath) -> Article {
         return articles[indexPath.row]
+    }
+    
+    private func getQuery() -> String {
+        let queryFetch = UserDefaults.standard.object(forKey: "query") as? [String] ?? [String]()
+        var result = ""
+        queryFetch.forEach { result += "+\($0)" }
+        return result
     }
 }
 
