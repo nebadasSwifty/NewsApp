@@ -6,19 +6,27 @@
 //
 
 import Foundation
+import UIKit
 
 
 final class NetworkService: NetworkServiceType {
     private var baseUrlString = "https://newsapi.org/v2/top-headlines?"
-    private let apiKey = "acc6674fc31b4761ab96d2b7be96a93d"
+    private let apiKey = "c0e24dfff73b48fb8db9d7509293d932"
     private let session = URLSession.shared
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
     func fetch(from category: Category, page: Int, query: String) {
         guard let url = generateNewsURL(from: category, query: query, page: page) else { return }
         session.dataTask(with: url) { data, response, error in
             guard let data = data else { return }
-            UserDefaults.standard.set(data, forKey: "articles")
-            
+            do {
+                let decodedData = try JSONDecoder().decode(NewsApiResonse.self, from: data).articles
+                DispatchQueue.main.async {
+                    NewsCoreData.sharedInstance.saveDataOf(articles: decodedData)
+                }
+            } catch let error as NSError {
+                print("Could not fetch data from api: \(error)")
+            }
         }.resume()
     }
     

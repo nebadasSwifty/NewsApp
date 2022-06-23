@@ -49,12 +49,13 @@ class NewsCell: UITableViewCell {
         }
     }
     //MARK: - Methods configure cell
+    
     func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
         let getViewModel = viewModel.getArticle(for: indexPath)
-        guard let date = getViewModel.publishedAt else { return }
         newsNameLabel.text = getViewModel.title
-        descriptionLabel.text = getViewModel.description
+        descriptionLabel.text = getViewModel.newsDescription
         sourceLabel.text = getViewModel.author
+        guard let date = getViewModel.publishedAt else { return }
         dateLabel.text = Date().dateFormatter(date: date)
         if let urlImage = URL(string: getViewModel.urlToImage ?? "") {
             newsImageView.kf.indicatorType = .activity

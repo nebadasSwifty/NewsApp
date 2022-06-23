@@ -62,11 +62,7 @@ extension NewsTableViewController {
             guard let self = self else { return }
             self.viewModel.selectedCategory = category
             UserDefaults.standard.set(category.rawValue, forKey: "categories")
-            self.networkService.fetch(from: self.viewModel.selectedCategory, page: 1, query: self.viewModel.query)
             self.viewModel.getData {
-                if self.viewModel.numberRows() == 0 {
-                    self.emptyNewsLabel.isHidden = false
-                }
                 self.tableView.reloadData()
             }
         }
@@ -124,8 +120,8 @@ extension NewsTableViewController {
     @objc func refreshNews() {
         viewModel.getData {
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
         }
-        refreshControl.endRefreshing()
     }
     @objc func presentSheet() {
         self.present(menuCatergories, animated: true)

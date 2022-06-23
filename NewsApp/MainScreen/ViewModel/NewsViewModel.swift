@@ -5,11 +5,16 @@
 //  Created by Кирилл on 09.06.2022.
 //
 
-import Foundation
-
+import UIKit
+import CoreData
 
 final class NewsViewModel: NewsViewModelType {
-    private var articles: [Article] = []
+    //MARK: - CoreData
+    private let container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    private let fetchRequest: NSFetchRequest<ArticleEntity> = ArticleEntity.fetchRequest()
+    private let sortByDateDescriptor: NSSortDescriptor = NSSortDescriptor(key: #keyPath(ArticleEntity.publishedAt), ascending: false)
+    //MARK: - Table view data source functions
+    private var articles: [ArticleEntity] = []
     lazy var selectedCategory: Category = {
         guard let savedCategory = UserDefaults.standard.string(forKey: "categories") else { return Category.general }
         let selectCategory = Category(rawValue: savedCategory)
@@ -27,33 +32,43 @@ extension NewsViewModel {
     func numberRows() -> Int {
         return articles.count
     }
-    private func fetchingData(completion: @escaping ([Article]) -> Void) {
+    private func fetchingData(completion: @escaping ([ArticleEntity]?) -> Void) {
         query = getQuery()
         networkService.fetch(from: selectedCategory, page: 1, query: query)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            guard let data = UserDefaults.standard.data(forKey: "articles") else { return }
-            if let decodedData = try? JSONDecoder().decode(NewsApiResonse.self, from: data) {
-                completion(decodedData.articles)
+        fetchRequest.sortDescriptors = [sortByDateDescriptor]
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [unowned self] in
+            do {
+                let result = try self.container?.viewContext.fetch(self.fetchRequest)
+                completion(result)
+            } catch let error as NSError {
+                print("Could not fetch: \(error)")
             }
         }
     }
     
     func getData(completion: @escaping () -> Void) {
         self.fetchingData { article in
+            guard let article = article else { return }
             self.articles = article
             completion()
         }
     }
     
-    func getArticle(for indexPath: IndexPath) -> Article {
+    func getArticle(for indexPath: IndexPath) -> ArticleEntity {
         return articles[indexPath.row]
     }
     
     private func getQuery() -> String {
-        let queryFetch = UserDefaults.standard.object(forKey: "query") as? [String] ?? [String]()
+        let queryFetch = UserDefaults.standard.object(forKey: "query") as? [String] ?? [""]
         var result = ""
         queryFetch.forEach { result += "+\($0)" }
         return result
+    }
+    
+    private func getCategory() -> Category {
+        guard let savedCategory = UserDefaults.standard.string(forKey: "categories") else { return Category.general }
+        let selectCategory = Category(rawValue: savedCategory)
+        return selectCategory ?? .general
     }
     
 }

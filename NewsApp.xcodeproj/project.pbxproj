@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8C21DB3294235803C6A7FCC9 /* Pods_NewsApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A89C8F649F8BB5F5DF2E4902 /* Pods_NewsApp.framework */; };
 		EDC1CC29285201A700E6957E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC1CC28285201A700E6957E /* Category.swift */; };
+		EDC92FE8285C9743009D3D5D /* NewsCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDC92FE6285C9743009D3D5D /* NewsCoreData.xcdatamodeld */; };
+		EDC92FEA285C9781009D3D5D /* NewsCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC92FE9285C9781009D3D5D /* NewsCoreData.swift */; };
 		EDD856AE2851C2C900D7A71D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD856AD2851C2C900D7A71D /* AppDelegate.swift */; };
 		EDD856B02851C2C900D7A71D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD856AF2851C2C900D7A71D /* SceneDelegate.swift */; };
 		EDD856B22851C2C900D7A71D /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD856B12851C2C900D7A71D /* NewsTableViewController.swift */; };
@@ -38,6 +40,8 @@
 		AA4281D87A59976304E51E66 /* Pods-NewsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.release.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.release.xcconfig"; sourceTree = "<group>"; };
 		DB8A8FFE47C7403A08F1E9D1 /* Pods-NewsApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsApp/Pods-NewsApp.debug.xcconfig"; sourceTree = "<group>"; };
 		EDC1CC28285201A700E6957E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		EDC92FE7285C9743009D3D5D /* NewsCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NewsCoreData.xcdatamodel; sourceTree = "<group>"; };
+		EDC92FE9285C9781009D3D5D /* NewsCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCoreData.swift; sourceTree = "<group>"; };
 		EDD856AA2851C2C900D7A71D /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDD856AD2851C2C900D7A71D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDD856AF2851C2C900D7A71D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 				EDD856C42851C33200D7A71D /* Coordinator */,
 				EDD856C12851C2DB00D7A71D /* SupportingFiles */,
 				EDD856BB2851C2CE00D7A71D /* Info.plist */,
+				EDC92FE6285C9743009D3D5D /* NewsCoreData.xcdatamodeld */,
 			);
 			path = NewsApp;
 			sourceTree = "<group>";
@@ -290,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				EDF755002857466E00D9D29E /* Date+Ext.swift */,
+				EDC92FE9285C9781009D3D5D /* NewsCoreData.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -425,9 +431,11 @@
 				EDD856B02851C2C900D7A71D /* SceneDelegate.swift in Sources */,
 				EDE8313A28539CCC0057DCD9 /* SettingsViewController+Ext.swift in Sources */,
 				EDC1CC29285201A700E6957E /* Category.swift in Sources */,
+				EDC92FE8285C9743009D3D5D /* NewsCoreData.xcdatamodeld in Sources */,
 				EDD856D02851C4DF00D7A71D /* NetworkService.swift in Sources */,
 				EDD856DC2851C87500D7A71D /* NewsCell.swift in Sources */,
 				EDD856E42851E1E600D7A71D /* NewsCellViewModelType.swift in Sources */,
+				EDC92FEA285C9781009D3D5D /* NewsCoreData.swift in Sources */,
 				EDE8313528535F900057DCD9 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,6 +648,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EDC92FE6285C9743009D3D5D /* NewsCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EDC92FE7285C9743009D3D5D /* NewsCoreData.xcdatamodel */,
+			);
+			currentVersion = EDC92FE7285C9743009D3D5D /* NewsCoreData.xcdatamodel */;
+			path = NewsCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EDD856A22851C2C900D7A71D /* Project object */;
 }

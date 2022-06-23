@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import SafariServices
+import CoreData
 
 class NewsTableViewController: UIViewController {
     // MARK: - Outlets
@@ -31,25 +32,28 @@ class NewsTableViewController: UIViewController {
     //MARK: - View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "News"
-        tableView.addSubview(refreshControl)
-        navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
-        setupTableViewConstraints()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getData {
             self.tableView.reloadData()
-            self.configureEmptyNewsLabel()
         }
-        configureConstraintsEmptyNewsLabel()
     }
     // MARK: - Private methods
     private func configureEmptyNewsLabel() {
         if viewModel.numberRows() == 0 {
             emptyNewsLabel.isHidden = false
         }
+    }
+    
+    private func setupUI() {
+        title = "News"
+        tableView.addSubview(refreshControl)
+        navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
+        setupTableViewConstraints()
+        configureConstraintsEmptyNewsLabel()
     }
 }
 
@@ -79,8 +83,8 @@ extension NewsTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NewsCell else { return UITableViewCell() }
         if viewModel.numberRows() != 0 {
-                cell.setupCell(with: viewModel, for: indexPath)
-                emptyNewsLabel.isHidden = true
+            emptyNewsLabel.isHidden = true
+            cell.setupCell(with: viewModel, for: indexPath)
         }
         return cell
     }

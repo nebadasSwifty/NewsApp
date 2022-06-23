@@ -16,18 +16,16 @@ struct NewsApiResonse: Codable {
 
 // MARK: - Article
 struct Article: Codable {
-    let source: Source
     let author: String?
     let title: String?
-    let description: String?
+    let newsDescription: String?
     let url: String?
     let urlToImage: String?
     let publishedAt: String?
     let content: String?
-}
-
-// MARK: - Source
-struct Source: Codable {
-    let id: String?
-    let name: String?
+    
+    private enum CodingKeys: String, CodingKey {
+        case newsDescription = "description"
+        case author, title, url, urlToImage, publishedAt, content
+    }
 }
