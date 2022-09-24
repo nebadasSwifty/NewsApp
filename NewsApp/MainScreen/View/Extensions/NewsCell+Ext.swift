@@ -5,7 +5,6 @@
 //  Created by Кирилл on 09.06.2022.
 //
 
-import Foundation
 import UIKit
 
 extension NewsCell {
@@ -58,10 +57,8 @@ extension NewsCell {
         stackView.alignment = .fill
         stackView.spacing = 2
         stackView.distribution = .fillProportionally
-        [self.sourceLabel,
-         self.newsNameLabel,
-         self.descriptionLabel,
-         self.dateLabel].forEach { stackView.addArrangedSubview($0) }
+        [sourceLabel, newsNameLabel, descriptionLabel, dateLabel].forEach { stackView.addArrangedSubview($0) }
+        
         return stackView
     }
     //MARK: - Creating Stack with all elements cell
@@ -70,7 +67,7 @@ extension NewsCell {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
-        [self.newsImageView, newsStackView].forEach { stackView.addArrangedSubview($0) }
+        [newsImageView, newsStackView].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }
 }

@@ -10,27 +10,24 @@ import SnapKit
 
 class SettingsViewController: UIViewController {
     //MARK: - Outlets
-    lazy var tableView: UITableView = createTableView()
-    lazy var backBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(popSettingsScreen))
-        return button
-    }()
-    
-    lazy var addItemsBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemsToTableView))
-        return button
-    }()
+    var tableView: UITableView!
+    var backBarButton: UIBarButtonItem!
+    var addItemsBarButton: UIBarButtonItem!
     
     var viewModel: SettingsViewModelType!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         createView()
         configureNavigationView()
     }
  //MARK: - Private methods
     private func createView() {
+        tableView = createTableView()
+        backBarButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(popSettingsScreen))
+        addItemsBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemsToTableView))
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -51,11 +48,13 @@ class SettingsViewController: UIViewController {
 // MARK: - Table view delegate
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.viewModel.savedNewsArray.remove(at: indexPath.row)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
+            self?.viewModel.savedNewsArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+        
         let swipeAction = UISwipeActionsConfiguration(actions: [deleteAction])
+        
         return swipeAction
     }
 }

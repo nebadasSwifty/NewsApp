@@ -8,5 +8,6 @@
 import Foundation
 
 protocol NetworkServiceType {
-    func fetch(from category: Category, page: Int, query: String)
+    func fetch(from category: Category, query: String)
+    var terminationHandler: (() -> ())? { get set }
 }

@@ -18,7 +18,6 @@ class AppCoordinator: AppCoordinatorType {
         let newsVC = NewsTableViewController()
         let networkSevice = NetworkService()
         let viewModel = NewsViewModel(networkService: networkSevice)
-        newsVC.networkService = networkSevice
         newsVC.viewModel = viewModel
         newsVC.coordinator = self
         navigationContoller.navigationBar.prefersLargeTitles = true

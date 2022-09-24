@@ -12,67 +12,65 @@ import CoreData
 
 class NewsTableViewController: UIViewController {
     // MARK: - Outlets
-    lazy var categoryButton = UIButton()
-    lazy var tableView: UITableView = createTableView()
-    lazy var menuCatergories = createSheet()
-    lazy var settingsBarButton: UIBarButtonItem = createSettingsBarButton()
-    lazy var categoryBarButton: UIBarButtonItem = createCategoryButton()
-    lazy var emptyNewsLabel: UILabel = createEmptyNewsLabel()
-    lazy var refreshControl: UIRefreshControl = {
-       let refresh = UIRefreshControl()
-        refresh.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refresh.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
-        return refresh
-    }()
+    var tableView: UITableView!
+    var menuCatergories: UIAlertController!
+    var settingsBarButton: UIBarButtonItem!
+    var categoryBarButton: UIBarButtonItem!
+    var refreshControl: UIRefreshControl!
     
     //MARK: - Variables
     var coordinator: AppCoordinatorType!
     var viewModel: NewsViewModelType!
-    var networkService: NetworkServiceType!
+    
     //MARK: - View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.getData {
-            self.tableView.reloadData()
-        }
-    }
-    // MARK: - Private methods
-    private func configureEmptyNewsLabel() {
-        if viewModel.numberRows() == 0 {
-            emptyNewsLabel.isHidden = false
+        
+        viewModel.getData { [weak self] in
+            self?.tableView.reloadData()
         }
     }
     
+    // MARK: - methods
     private func setupUI() {
         title = "News"
-        tableView.addSubview(refreshControl)
-        navigationItem.rightBarButtonItems = [categoryBarButton, settingsBarButton]
+        
+        refreshControl = setupRefreshControl()
+        settingsBarButton = createSettingsBarButton()
+        categoryBarButton = createCategoryButton()
+        menuCatergories = createSheet()
+        tableView = createTableView()
+        
+        navigationItem.rightBarButtonItems = [settingsBarButton, categoryBarButton]
         setupTableViewConstraints()
-        configureConstraintsEmptyNewsLabel()
     }
 }
 
 //MARK: - Table view delegate
 extension NewsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let urlString = viewModel.getArticle(for: indexPath).url else { return }
-        if let url = URL(string: urlString) {
-            let vc = SFSafariViewController(url: url)
-            vc.delegate = self
-            present(vc, animated: true)
-        }
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let urlString = viewModel.getArticle(for: indexPath).url,
+              let url = URL(string: urlString) else {
+            return
+        }
+        
+        let vc = SFSafariViewController(url: url)
+        vc.delegate = self
+        present(vc, animated: true)
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 165
+        return UITableView.automaticDimension
     }
 }
-
 
 //MARK: - Table view data source
 extension NewsTableViewController: UITableViewDataSource {
@@ -81,13 +79,30 @@ extension NewsTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NewsCell else { return UITableViewCell() }
-        if viewModel.numberRows() != 0 {
-            emptyNewsLabel.isHidden = true
-            cell.setupCell(with: viewModel, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? NewsCell else {
+            fatalError("Can't create cell: NewsCell")
         }
+        
+        cell.setupCell(with: viewModel, for: indexPath)
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if viewModel.numberRows() == 0 {
+            let view = NewsTableHeaderView(frame: .zero)
+            view.setText("News not found")
+            
+            return view
+        }
+        
+        return nil
     }
 }
 
+extension NewsTableViewController: SFSafariViewControllerDelegate {}
 

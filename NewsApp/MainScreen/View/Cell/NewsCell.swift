@@ -10,13 +10,13 @@ import Kingfisher
 
 class NewsCell: UITableViewCell {
     //MARK: - Outlets
-    lazy var newsImageView: UIImageView = createImageView()
-    lazy var newsNameLabel: UILabel = createNameLabel()
-    lazy var descriptionLabel: UILabel = createDescriptionLabel()
-    lazy var dateLabel: UILabel = createDateLabel()
-    lazy var sourceLabel: UILabel = createSourceLabel()
-    lazy var newsStackView: UIStackView = createNewsStackView()
-    lazy var elementsStackView: UIStackView = createStackView()
+    var newsImageView: UIImageView!
+    var newsNameLabel: UILabel!
+    var descriptionLabel: UILabel!
+    var dateLabel: UILabel!
+    var sourceLabel: UILabel!
+    var newsStackView: UIStackView!
+    var elementsStackView: UIStackView!
     
     //MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -30,6 +30,14 @@ class NewsCell: UITableViewCell {
     
     //MARK: - Private methods
     private func configureViewCell() {
+        newsImageView = createImageView()
+        newsNameLabel = createNameLabel()
+        descriptionLabel = createDescriptionLabel()
+        dateLabel = createDateLabel()
+        sourceLabel = createSourceLabel()
+        newsStackView = createNewsStackView()
+        elementsStackView = createStackView()
+        
         addSubview(elementsStackView)
         elementsStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
@@ -48,16 +56,27 @@ class NewsCell: UITableViewCell {
             make.left.equalToSuperview().inset(10)
         }
     }
-    //MARK: - Methods configure cell
     
+    //MARK: - Methods configure cell
     func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
-        let getViewModel = viewModel.getArticle(for: indexPath)
-        newsNameLabel.text = getViewModel.title
-        descriptionLabel.text = getViewModel.newsDescription
-        sourceLabel.text = getViewModel.author
-        guard let date = getViewModel.publishedAt else { return }
+        let article = viewModel.getArticle(for: indexPath)
+        newsNameLabel.text = article.title
+        sourceLabel.text = article.author
+        
+        if article.newsDescription?.isEmpty == false {
+            descriptionLabel.text = article.newsDescription
+        } else {
+            descriptionLabel.text = "Tap on news to see description"
+        }
+        
+        
+        guard let date = article.publishedAt else {
+            return
+        }
+        
         dateLabel.text = Date().dateFormatter(date: date)
-        if let urlImage = URL(string: getViewModel.urlToImage ?? "") {
+        
+        if let urlImage = URL(string: article.urlToImage ?? "") {
             newsImageView.kf.indicatorType = .activity
             newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4)),
                                                                 .processor(DownsamplingImageProcessor(size: newsImageView.frame.size)),

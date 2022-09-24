@@ -5,9 +5,6 @@
 //  Created by Кирилл on 09.06.2022.
 //
 
-import Foundation
-
-
 // MARK: - News
 struct NewsApiResonse: Codable {
     let status: String
