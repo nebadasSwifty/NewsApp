@@ -33,5 +33,7 @@ final class ArticleObject: NSManagedObject, Parsable {
         publishedAt = Date().dateFromString(string: element.publishedAt ?? "")
         url = element.url
         urlToImage = element.urlToImage
+        
+        return self
     }
 }

@@ -19,7 +19,7 @@ extension SettingsViewController {
     
     @objc func popSettingsScreen() {
         viewModel.saveArray()
-        navigationController?.popViewController(animated: true)
+        finishFlow?()
     }
     
     @objc func addItemsToTableView() {

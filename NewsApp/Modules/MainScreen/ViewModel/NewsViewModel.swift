@@ -9,8 +9,8 @@ import CoreData
 
 final class NewsViewModel {
     //MARK: - Table view data source functions
-    var articles: Dynamic<[ArticleObject]> = .init([])
-    var errorString: Dynamic<String> = .init("")
+    let articles: Dynamic<[ArticleObject]> = .init([])
+    let errorString: Dynamic<String> = .init("")
     var selectedCategory: Category {
         guard let savedCategory = UserDefaults.standard.string(forKey: "categories"),
               let category = Category(rawValue: savedCategory) else {
@@ -18,6 +18,10 @@ final class NewsViewModel {
         }
         
         return category
+    }
+    
+    func numberOfRowsInSection(_ section: Int) -> Int {
+        return articles.value.count
     }
     
     func getData() {

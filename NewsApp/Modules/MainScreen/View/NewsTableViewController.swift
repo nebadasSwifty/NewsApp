@@ -26,6 +26,7 @@ class NewsTableViewController: UIViewController {
         
         setupUI()
         bindViewModel()
+        viewModel.getData()
     }
     
     // MARK: - methods
@@ -50,8 +51,10 @@ class NewsTableViewController: UIViewController {
         }
         
         viewModel.errorString.bind { [weak self] error in
-            DispatchQueue.main.async {
-                self?.showErrorAlert(message: error)
+            if !error.isEmpty {
+                DispatchQueue.main.async {
+                    self?.showErrorAlert(message: error)
+                }
             }
         }
     }

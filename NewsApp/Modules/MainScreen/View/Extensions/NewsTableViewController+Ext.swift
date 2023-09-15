@@ -75,7 +75,7 @@ extension NewsTableViewController {
     }
     
     @objc func settingsBarButtonPressed() {
-//        coordinator.showSettings()
+        finishFlow?()
     }
     
     @objc func refreshNews() {

@@ -23,7 +23,7 @@ class NetworkService {
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
+            if error != nil {
                 completionHandler(.failure(.requestWithError))
             }
             

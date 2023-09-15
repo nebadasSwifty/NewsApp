@@ -66,8 +66,12 @@ extension NewsCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
+        stackView.spacing = 8
         stackView.distribution = .fillProportionally
         [newsImageView, newsStackView].forEach { stackView.addArrangedSubview($0) }
+        
+        addSubview(stackView)
+        
         return stackView
     }
 }

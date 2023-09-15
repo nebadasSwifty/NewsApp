@@ -38,28 +38,12 @@ class NewsCell: UITableViewCell {
         newsStackView = createNewsStackView()
         elementsStackView = createStackView()
         
-        addSubview(elementsStackView)
-        elementsStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(20)
-            make.left.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(10)
-        }
-        
-        newsStackView.snp.makeConstraints { make in
-            make.left.equalTo(newsImageView).inset(100)
-        }
-
-        descriptionLabel.snp.makeConstraints { make in
-            make.height.equalTo(70)
-            make.width.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(10)
-        }
+        configureConstraints()
     }
     
     //MARK: - Methods configure cell
-    func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
-        let article = viewModel.getArticle(for: indexPath)
+    func setupCell(with viewModel: NewsViewModel, for indexPath: IndexPath) {
+        guard let article = viewModel.getArticle(for: indexPath) else { return }
         newsNameLabel.text = article.title
         sourceLabel.text = article.author
         
@@ -70,17 +54,30 @@ class NewsCell: UITableViewCell {
         }
         
         
-        guard let date = article.publishedAt else {
-            return
+        if let date = article.publishedAt {
+            dateLabel.text = Date().dateFormatter(date: date)
         }
-        
-        dateLabel.text = Date().dateFormatter(date: date)
-        
+
         if let urlImage = URL(string: article.urlToImage ?? "") {
+            newsImageView.isHidden = false
             newsImageView.kf.indicatorType = .activity
             newsImageView.kf.setImage(with: urlImage, options: [.transition(.fade(0.4)),
-                                                                .processor(DownsamplingImageProcessor(size: newsImageView.frame.size)),
                                                                 .cacheOriginalImage])
+        } else {
+            newsImageView.isHidden = true
+        }
+    }
+    
+    func configureConstraints() {
+        elementsStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(20)
+            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
+        }
+        
+        newsImageView.snp.makeConstraints { make in
+            make.width.equalTo(70)
         }
     }
     

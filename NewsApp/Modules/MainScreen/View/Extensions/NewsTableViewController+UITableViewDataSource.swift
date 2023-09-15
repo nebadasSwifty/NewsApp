@@ -9,7 +9,7 @@ import UIKit
 
 extension NewsTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberRows()
+        return viewModel.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -27,7 +27,7 @@ extension NewsTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if viewModel.numberRows() == 0 {
+        if viewModel.numberOfRowsInSection(section) == 0 {
             let view = NewsTableHeaderView(frame: .zero)
             view.setText("News not found")
             
