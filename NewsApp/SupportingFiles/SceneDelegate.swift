@@ -9,18 +9,23 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private var coordinator: AppCoordinatorType?
-
+    var rootController: UINavigationController {
+        return window?.rootViewController as! UINavigationController
+    }
+    fileprivate lazy var coordinator: Coordinatable = makeCoordinator()
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            let navigationController = UINavigationController()
-            coordinator = AppCoordinator(navigationController: navigationController)
-            coordinator?.start()
-            window.rootViewController = navigationController
-            self.window = window
-            window.makeKeyAndVisible()
+            window = UIWindow(windowScene: windowScene)
+            window?.rootViewController = UINavigationController()
+            window?.makeKeyAndVisible()
         }
+    }
+}
+
+private extension SceneDelegate {
+    func makeCoordinator() -> Coordinatable {
+        return AppCoordinator(router: Router(rootController: rootController))
     }
 }
 

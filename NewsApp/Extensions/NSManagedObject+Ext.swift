@@ -13,9 +13,9 @@ extension NSManagedObject {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         
         do {
-            let object = try AppDelegate.context.fetch(fetchRequest) as! [NSManagedObject]
+            let object = try DatabaseService.shared.context.fetch(fetchRequest) as! [NSManagedObject]
             
-            object.forEach({ AppDelegate.context.delete($0)} )
+            object.forEach({ DatabaseService.shared.context.delete($0)} )
         } catch {
             print("Can't clear entity. Entity name: \(entity)")
         }
@@ -26,7 +26,7 @@ extension NSManagedObject {
             fetchRequest.sortDescriptors = sortDescriptors
             
             do {
-                list = try AppDelegate.context.fetch(fetchRequest) as! [T]
+                list = try DatabaseService.shared.context.fetch(fetchRequest) as! [T]
             } catch {
                 print("error while getting \(entityName): \(error)")
             }
