@@ -7,11 +7,22 @@
 
 import CoreData
 
-final class NewsViewModel {
+protocol NewsViewModelType {
+    var articles: Dynamic<[ArticleObject]> { get }
+    var errorString: Dynamic<String> { get }
+    
+    func numberOfRowsInSection(_ section: Int) -> Int
+    func fetchData()
+    func getArticle(for indexPath: IndexPath) -> ArticleObject?
+}
+
+
+final class NewsViewModel: NewsViewModelType {
     //MARK: - Table view data source functions
     let articles: Dynamic<[ArticleObject]> = .init([])
     let errorString: Dynamic<String> = .init("")
-    var selectedCategory: Category {
+    let networkService: NetworkServiceProtocol
+    private var selectedCategory: Category {
         guard let savedCategory = UserDefaults.standard.string(forKey: "categories"),
               let category = Category(rawValue: savedCategory) else {
             return Category.general
@@ -20,13 +31,17 @@ final class NewsViewModel {
         return category
     }
     
+    init(networkService: NetworkServiceProtocol) {
+        self.networkService = networkService
+    }
+    
     func numberOfRowsInSection(_ section: Int) -> Int {
         return articles.value.count
     }
     
-    func getData() {
-        NSManagedObject.deleteEntity("ArticleObject")
-        NetworkService.shared.fetch(from: selectedCategory) { [weak self] result in
+    func fetchData() {
+        NSManagedObject.deleteEntity(Entity.article)
+        networkService.fetch(from: selectedCategory) { [weak self] result in
             switch result {
             case .success(let newsResponse):
                 let articles: [ArticleObject] = DatabaseService.shared.parseToDatabase(with: newsResponse?.articles ?? [], for: Entity.article)

@@ -9,9 +9,9 @@ import UIKit
 
 final class NewsModuleBuilder {
     static func build() -> NewsTableViewController {
-        let newsVC = NewsTableViewController()
-        let viewModel = NewsViewModel()
-        newsVC.viewModel = viewModel
+        let networkService = NetworkService()
+        let viewModel = NewsViewModel(networkService: networkService)
+        let newsVC = NewsTableViewController(viewModel: viewModel)
         return newsVC
     }
 }

@@ -11,11 +11,11 @@ import CoreData
 
 typealias CompletionHandlerWithApiResponseResult = ((Result<NewsApiResponse?, NetworkError>) -> Void)
 
-class NetworkService {
-    static let shared = NetworkService()
-    
-    private init() {}
-    
+protocol NetworkServiceProtocol {
+    func fetch(from category: Category, completionHandler: @escaping CompletionHandlerWithApiResponseResult)
+}
+
+class NetworkService: NetworkServiceProtocol {
     func fetch(from category: Category, completionHandler: @escaping CompletionHandlerWithApiResponseResult) {
         guard let url = generateNewsURL(from: category) else {
             completionHandler(.failure(.incorrectURL))

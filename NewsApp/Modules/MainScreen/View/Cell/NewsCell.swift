@@ -42,7 +42,7 @@ class NewsCell: UITableViewCell {
     }
     
     //MARK: - Methods configure cell
-    func setupCell(with viewModel: NewsViewModel, for indexPath: IndexPath) {
+    func setupCell(with viewModel: NewsViewModelType, for indexPath: IndexPath) {
         guard let article = viewModel.getArticle(for: indexPath) else { return }
         newsNameLabel.text = article.title
         sourceLabel.text = article.author
@@ -68,7 +68,7 @@ class NewsCell: UITableViewCell {
         }
     }
     
-    func configureConstraints() {
+    private func configureConstraints() {
         elementsStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(20)
