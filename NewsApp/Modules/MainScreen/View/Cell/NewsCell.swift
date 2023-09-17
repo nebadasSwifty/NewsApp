@@ -55,7 +55,7 @@ class NewsCell: UITableViewCell {
         
         
         if let date = article.publishedAt {
-            dateLabel.text = Date().dateFormatter(date: date)
+            dateLabel.text = Date.dateFormatter(date: date)
         }
 
         if let urlImage = URL(string: article.urlToImage ?? "") {

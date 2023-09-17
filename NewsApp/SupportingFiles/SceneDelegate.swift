@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var rootController: UINavigationController {
         return window?.rootViewController as! UINavigationController
     }
+    
     fileprivate lazy var coordinator: Coordinatable = makeCoordinator()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

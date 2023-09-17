@@ -23,6 +23,6 @@ class SettingsCoordinator: Coordinator, SettingsCoordinatorOutput {
         settingsVC.finishFlow = {
             self.finishFlow?()
         }
-        router.setRootModule(settingsVC, animated: true)
+        router.push(settingsVC, animated: true)
     }
 }

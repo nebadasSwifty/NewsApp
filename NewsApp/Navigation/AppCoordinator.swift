@@ -18,7 +18,6 @@ class AppCoordinator: Coordinator {
         let newsCoordinator = CoordinatorFactory().makeNewsCoordinator(router: router)
         newsCoordinator.finishFlow = {
             self.performSettingsFlow()
-            self.removeDependency(newsCoordinator)
         }
         addDependency(newsCoordinator)
         newsCoordinator.start()

@@ -10,7 +10,8 @@ import Foundation
 class SettingsModuleBuilder {
     static func build() -> SettingsViewController {
         let settingsVC = SettingsViewController()
-        let viewModel = SettingsViewModel()
+        let userKeysSaver = UserKeysSaver()
+        let viewModel = SettingsViewModel(userKeysSaver: userKeysSaver)
         settingsVC.viewModel = viewModel
         return settingsVC
     }

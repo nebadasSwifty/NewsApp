@@ -44,9 +44,7 @@ extension NewsTableViewController {
     
     func createActionItem(title: String, category: Category) -> UIAlertAction {
         let action = UIAlertAction(title: title, style: .default) { [weak self] _ in
-            UserDefaults.standard.set(category.rawValue, forKey: "categories")
-            
-            self?.viewModel.fetchData()
+            self?.viewModel.fetchData(category: category)
         }
         
         return action
@@ -79,7 +77,7 @@ extension NewsTableViewController {
     }
     
     @objc func refreshNews() {
-        viewModel.fetchData()
+        viewModel.fetchData(category: .general)
         refreshControl.endRefreshing()
     }
     

@@ -35,7 +35,7 @@ class NewsTableViewController: UIViewController {
         
         setupUI()
         bindViewModel()
-        viewModel.fetchData()
+        viewModel.fetchData(category: .general)
     }
     
     // MARK: - methods

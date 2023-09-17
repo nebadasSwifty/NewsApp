@@ -18,7 +18,6 @@ extension SettingsViewController {
     }
     
     @objc func popSettingsScreen() {
-        viewModel.saveArray()
         finishFlow?()
     }
     

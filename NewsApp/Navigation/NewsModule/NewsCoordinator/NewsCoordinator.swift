@@ -23,6 +23,11 @@ class NewsCoordinator: Coordinator, NewsCoordinatorOutput {
         newsView.finishFlow = {
             self.finishFlow?()
         }
-        router.setRootModule(newsView, animated: true)
+        
+        if childCoordinators.contains(where: { $0 === self }) {
+            router.popController(animated: true)
+        } else {
+            router.setRootModule(newsView, animated: true)
+        }
     }
 }

@@ -23,6 +23,7 @@ final class ArticleObject: NSManagedObject, Parsable {
     @NSManaged var url: String?
     @NSManaged var urlToImage: String?
     
+    @discardableResult
     func parse(_ element: Article?) -> ArticleObject? {
         guard let element else { return nil }
         
@@ -30,7 +31,7 @@ final class ArticleObject: NSManagedObject, Parsable {
         content = element.content
         title = element.title
         newsDescription = element.description
-        publishedAt = Date().dateFromString(string: element.publishedAt ?? "")
+        publishedAt = Date.dateFromString(string: element.publishedAt ?? "")
         url = element.url
         urlToImage = element.urlToImage
         

@@ -12,7 +12,7 @@ protocol NewsViewModelType {
     var errorString: Dynamic<String> { get }
     
     func numberOfRowsInSection(_ section: Int) -> Int
-    func fetchData()
+    func fetchData(category: Category)
     func getArticle(for indexPath: IndexPath) -> ArticleObject?
 }
 
@@ -22,14 +22,6 @@ final class NewsViewModel: NewsViewModelType {
     let articles: Dynamic<[ArticleObject]> = .init([])
     let errorString: Dynamic<String> = .init("")
     let networkService: NetworkServiceProtocol
-    private var selectedCategory: Category {
-        guard let savedCategory = UserDefaults.standard.string(forKey: "categories"),
-              let category = Category(rawValue: savedCategory) else {
-            return Category.general
-        }
-        
-        return category
-    }
     
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
@@ -39,9 +31,9 @@ final class NewsViewModel: NewsViewModelType {
         return articles.value.count
     }
     
-    func fetchData() {
+    func fetchData(category: Category) {
         NSManagedObject.deleteEntity(Entity.article)
-        networkService.fetch(from: selectedCategory) { [weak self] result in
+        networkService.fetch(from: category) { [weak self] result in
             switch result {
             case .success(let newsResponse):
                 let articles: [ArticleObject] = DatabaseService.shared.parseToDatabase(with: newsResponse?.articles ?? [], for: Entity.article)
@@ -53,6 +45,10 @@ final class NewsViewModel: NewsViewModelType {
     }
     
     func getArticle(for indexPath: IndexPath) -> ArticleObject? {
-        return articles.value[indexPath.row]
+        if articles.value.indices.contains(indexPath.row) {
+            return articles.value[indexPath.row]
+        }
+        
+        return nil
     }
 }

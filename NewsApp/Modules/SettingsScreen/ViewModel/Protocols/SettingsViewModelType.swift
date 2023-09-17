@@ -9,6 +9,5 @@ import Foundation
 
 protocol SettingsViewModelType {
     func numberRows() -> Int
-    func saveArray()
     var savedNewsArray: [String] { get set }
 }
